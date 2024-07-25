@@ -3891,6 +3891,12 @@ input, select, textarea {
     		color: #000000; /* Ensure all heading, paragraph, and link text is black */
 	}
 
+	#intro .button {
+   		background-color: #000000; /* Change button background color to black */
+    		color: #ffffff; /* Change button text color to white for contrast */
+    		border: 1px solid #000000; /* Optional: Change button border color to black */
+	}
+
 		#intro p {
 			font-size: 1.25em;
 		}
