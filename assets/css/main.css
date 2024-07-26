@@ -3932,3 +3932,12 @@ input, select, textarea {
     background-color: white;
     color: black;
 }
+
+#two h1,
+#two h2,
+#two h3,
+#two h4,
+#two h5,
+#two h6 {
+    color: black;
+}
