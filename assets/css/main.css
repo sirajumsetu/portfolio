@@ -3963,3 +3963,21 @@ input, select, textarea {
     background: rgba(0, 0, 0, 0.1); /* Slightly darker for header */
     color: black;
 }
+
+#three {
+    background-color: black;
+    color: white;
+}
+
+#three h1,
+#three h2,
+#three h3,
+#three h4,
+#three h5,
+#three h6 {
+    color: white;
+}
+
+#three .fa {
+    color: white;
+}
