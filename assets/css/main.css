@@ -3941,3 +3941,7 @@ input, select, textarea {
 #two h6 {
     color: black;
 }
+
+#two .fa {
+    color: black;
+}
