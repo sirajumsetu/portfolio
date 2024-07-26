@@ -3991,10 +3991,20 @@ input, select, textarea {
     color: black;
 }
 
-#footer a:hover {
-    color: grey; /* Optional: Change hover color for better UX */
 }
 
+#footer h1,
+#footer h2,
+#footer h3,
+#footer h4,
+#footer h5,
+#footer h6,
+#footer p,
+#footer a,
 #footer .fa {
     color: black;
+}
+
+#footer a:hover {
+    color: grey; /* Optional: Change hover color for better UX */
 }
