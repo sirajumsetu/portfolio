@@ -3945,3 +3945,21 @@ input, select, textarea {
 #two .fa {
     color: black;
 }
+
+#two table {
+    background: linear-gradient(to right, #e0e0e0, #f5f5f5); /* Greyish gradient */
+    color: black; /* Ensure text is readable */
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#two table th,
+#two table td {
+    padding: 10px;
+    border: 1px solid #ccc; /* Light border for better readability */
+}
+
+#two table th {
+    background: rgba(0, 0, 0, 0.1); /* Slightly darker for header */
+    color: black;
+}
