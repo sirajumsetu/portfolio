@@ -3981,3 +3981,20 @@ input, select, textarea {
 #three .fa {
     color: white;
 }
+
+#footer {
+    background-color: white;
+    color: black;
+}
+
+#footer a {
+    color: black;
+}
+
+#footer a:hover {
+    color: grey; /* Optional: Change hover color for better UX */
+}
+
+#footer .fa {
+    color: black;
+}
