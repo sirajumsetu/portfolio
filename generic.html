@@ -44,13 +44,14 @@
                              <strong>Info:</strong> ${patientInfo}<br>
                              <strong>Duration:</strong> <span class="timer">${newTimer}</span> minutes`;
         timersList.appendChild(newItem);
-        startTimer(newItem.querySelector('.timer'), newTimer);
+        startTimer(newTimer);
       }
     }
 
     // Function to start a countdown timer
-    function startTimer(timerElement, duration) {
+    function startTimer(duration) {
       let timeRemaining = duration * 60; // Convert minutes to seconds
+      const timerElement = document.getElementById('current-timer');
       const interval = setInterval(() => {
         const minutes = Math.floor(timeRemaining / 60);
         const seconds = timeRemaining % 60;
@@ -59,7 +60,7 @@
 
         if (timeRemaining < 0) {
           clearInterval(interval);
-          timerElement.textContent = 'Time\'s up!';
+          timerElement.textContent = "Time's up!";
         }
       }, 1000);
     }
@@ -85,6 +86,11 @@
     <p id="date-time" class="mt-2 text-gray-600"></p>
     <p id="machine-count" class="mt-2 text-gray-600"></p>
   </header>
+
+  <!-- Current Timer Display -->
+  <div class="flex justify-center items-center mt-8">
+    <h2 class="text-4xl font-semibold text-red-600" id="current-timer">No Timer Running</h2>
+  </div>
 
   <!-- Action Buttons -->
   <div class="flex space-x-4 mt-8">
