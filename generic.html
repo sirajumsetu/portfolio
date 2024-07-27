@@ -12,17 +12,23 @@
   <title>DialysisLog</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script>
+    // Function to update the date and time display
+    function updateDateTime() {
+      const now = new Date();
+      const dateTimeString = now.toLocaleString();
+      document.getElementById('date-time').textContent = dateTimeString;
+    }
+
     // Function to add a new machine
     function addMachine() {
-      // Get the selected machine number
       const machineNumber = document.getElementById('machine-select').value;
-      // Randomly determine the availability
       const availability = Math.random() < 0.5 ? 'Available' : 'Not Available';
       const machinesList = document.getElementById('machines-list');
       const newItem = document.createElement('li');
       newItem.className = 'py-2 border-b border-gray-200';
       newItem.textContent = `Machine ${machineNumber} - Availability: ${availability}`;
       machinesList.appendChild(newItem);
+      updateMachineCount();
     }
 
     // Function to add a new timer
@@ -40,13 +46,27 @@
         timersList.appendChild(newItem);
       }
     }
+
+    // Function to update the machine count
+    function updateMachineCount() {
+      const machinesList = document.getElementById('machines-list');
+      const availableMachines = Array.from(machinesList.children).filter(item => item.textContent.includes('Available')).length;
+      document.getElementById('machine-count').textContent = `Available Machines: ${availableMachines}`;
+    }
+
+    // Update date and time every second
+    setInterval(updateDateTime, 1000);
+
+    // Update machine count on page load
+    window.onload = updateMachineCount;
   </script>
 </head>
 <body class="flex flex-col items-center justify-between min-h-screen p-8 bg-gray-100">
   <!-- Header Section -->
   <header class="w-full max-w-5xl p-4 text-center bg-white rounded shadow">
     <h1 class="text-4xl font-bold text-gray-800">DialysisLog</h1>
-    <p class="mt-2 text-gray-600">Track your dialysis machines, timers, and patient information</p>
+    <p id="date-time" class="mt-2 text-gray-600"></p>
+    <p id="machine-count" class="mt-2 text-gray-600"></p>
   </header>
 
   <!-- Action Buttons -->
