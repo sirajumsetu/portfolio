@@ -12,6 +12,8 @@
   <title>DialysisLog</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script>
+    let currentInterval; // To keep track of the current timer interval
+
     // Function to update the date and time display
     function updateDateTime() {
       const now = new Date();
@@ -31,11 +33,21 @@
       updateMachineCount();
     }
 
+    // Function to open the timer modal
+    function openTimerModal() {
+      document.getElementById('timer-modal').classList.remove('hidden');
+    }
+
+    // Function to close the timer modal
+    function closeTimerModal() {
+      document.getElementById('timer-modal').classList.add('hidden');
+    }
+
     // Function to add a new timer
     function addTimer() {
-      const newTimer = prompt('Enter timer duration in minutes:');
-      const patientName = prompt('Enter patient name:');
-      const patientInfo = prompt('Enter patient information:');
+      const newTimer = document.getElementById('timer-duration').value;
+      const patientName = document.getElementById('patient-name').value;
+      const patientInfo = document.getElementById('patient-info').value;
       if (newTimer && patientName && patientInfo) {
         const timersList = document.getElementById('timers-list');
         const newItem = document.createElement('li');
@@ -45,21 +57,26 @@
                              <strong>Duration:</strong> <span class="timer">${newTimer}</span> minutes`;
         timersList.appendChild(newItem);
         startTimer(newTimer);
+        closeTimerModal();
       }
     }
 
     // Function to start a countdown timer
     function startTimer(duration) {
+      if (currentInterval) {
+        clearInterval(currentInterval); // Clear any existing timer
+      }
+
       let timeRemaining = duration * 60; // Convert minutes to seconds
       const timerElement = document.getElementById('current-timer');
-      const interval = setInterval(() => {
+      currentInterval = setInterval(() => {
         const minutes = Math.floor(timeRemaining / 60);
         const seconds = timeRemaining % 60;
         timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         timeRemaining--;
 
         if (timeRemaining < 0) {
-          clearInterval(interval);
+          clearInterval(currentInterval);
           timerElement.textContent = "Time's up!";
         }
       }, 1000);
@@ -107,7 +124,7 @@
         Add Machine
       </button>
     </div>
-    <button onclick="addTimer()" class="px-4 py-2 text-white bg-green-600 rounded shadow hover:bg-green-700">
+    <button onclick="openTimerModal()" class="px-4 py-2 text-white bg-green-600 rounded shadow hover:bg-green-700">
       Add Timer
     </button>
   </div>
@@ -129,6 +146,23 @@
         <!-- Timer items will be added here -->
       </ul>
     </section>
+  </div>
+
+  <!-- Timer Modal -->
+  <div id="timer-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
+    <div class="bg-white rounded p-8">
+      <h3 class="text-2xl font-semibold mb-4">Add Timer</h3>
+      <label for="timer-duration" class="block text-sm font-medium text-gray-700">Duration (minutes)</label>
+      <input type="number" id="timer-duration" class="w-full px-2 py-1 border rounded mb-4">
+      <label for="patient-name" class="block text-sm font-medium text-gray-700">Patient Name</label>
+      <input type="text" id="patient-name" class="w-full px-2 py-1 border rounded mb-4">
+      <label for="patient-info" class="block text-sm font-medium text-gray-700">Patient Info</label>
+      <textarea id="patient-info" class="w-full px-2 py-1 border rounded mb-4"></textarea>
+      <div class="flex space-x-4">
+        <button onclick="addTimer()" class="px-4 py-2 text-white bg-blue-600 rounded shadow hover:bg-blue-700">Add</button>
+        <button onclick="closeTimerModal()" class="px-4 py-2 text-white bg-gray-600 rounded shadow hover:bg-gray-700">Cancel</button>
+      </div>
+    </div>
   </div>
 </body>
 </html>
