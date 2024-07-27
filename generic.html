@@ -112,7 +112,6 @@
     // Function to add a new machine entry
     function addMachine() {
       const machineNumber = document.getElementById('machine-select').value;
-      const availability = machineAvailability[machineNumber] ? 'Available' : 'Not Available';
       updateMachineList();
     }
 
@@ -196,3 +195,6 @@
       const availableMachines = Object.values(machineAvailability).filter(available => available).length;
       document.getElementById('machine-count').textContent = `Available Machines: ${availableMachines}`;
     }
+  </script>
+</body>
+</html>
