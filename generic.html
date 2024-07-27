@@ -4,6 +4,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,13 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script>
     let currentInterval; // To keep track of the current timer interval
+    let machineAvailability = {
+      1: true,
+      2: true,
+      3: true,
+      4: true,
+      5: true
+    };
 
     // Function to update the date and time display
     function updateDateTime() {
@@ -21,10 +29,10 @@
       document.getElementById('date-time').textContent = dateTimeString;
     }
 
-    // Function to add a new machine
+    // Function to add a new machine entry
     function addMachine() {
       const machineNumber = document.getElementById('machine-select').value;
-      const availability = Math.random() < 0.5 ? 'Available' : 'Not Available';
+      const availability = machineAvailability[machineNumber] ? 'Available' : 'Not Available';
       const machinesList = document.getElementById('machines-list');
       const newItem = document.createElement('li');
       newItem.className = 'py-2 border-b border-gray-200';
@@ -45,6 +53,12 @@
 
     // Function to add a new timer
     function addTimer() {
+      const machineNumber = document.getElementById('machine-select').value;
+      if (!machineAvailability[machineNumber]) {
+        alert(`Machine ${machineNumber} is currently in use.`);
+        return;
+      }
+
       const newTimer = document.getElementById('timer-duration').value;
       const patientName = document.getElementById('patient-name').value;
       const patientInfo = document.getElementById('patient-info').value;
@@ -54,15 +68,17 @@
         newItem.className = 'py-2 border-b border-gray-200';
         newItem.innerHTML = `<strong>Patient:</strong> ${patientName}<br>
                              <strong>Info:</strong> ${patientInfo}<br>
-                             <strong>Duration:</strong> <span class="timer">${newTimer}</span> minutes`;
+                             <strong>Duration:</strong> <span class="timer">${newTimer}</span> minutes<br>
+                             <strong>Machine:</strong> ${machineNumber}`;
         timersList.appendChild(newItem);
-        startTimer(newTimer);
+        machineAvailability[machineNumber] = false; // Set machine as unavailable
+        startTimer(newTimer, machineNumber);
         closeTimerModal();
       }
     }
 
     // Function to start a countdown timer
-    function startTimer(duration) {
+    function startTimer(duration, machineNumber) {
       if (currentInterval) {
         clearInterval(currentInterval); // Clear any existing timer
       }
@@ -78,22 +94,39 @@
         if (timeRemaining < 0) {
           clearInterval(currentInterval);
           timerElement.textContent = "Time's up!";
+          machineAvailability[machineNumber] = true; // Set machine as available
+          updateMachineList();
+          updateMachineCount();
         }
       }, 1000);
     }
 
+    // Function to update the machine list to reflect availability
+    function updateMachineList() {
+      const machinesList = document.getElementById('machines-list');
+      machinesList.innerHTML = ''; // Clear the list
+      for (const [machine, available] of Object.entries(machineAvailability)) {
+        const newItem = document.createElement('li');
+        newItem.className = 'py-2 border-b border-gray-200';
+        newItem.textContent = `Machine ${machine} - Availability: ${available ? 'Available' : 'Not Available'}`;
+        machinesList.appendChild(newItem);
+      }
+    }
+
     // Function to update the machine count
     function updateMachineCount() {
-      const machinesList = document.getElementById('machines-list');
-      const availableMachines = Array.from(machinesList.children).filter(item => item.textContent.includes('Available')).length;
+      const availableMachines = Object.values(machineAvailability).filter(available => available).length;
       document.getElementById('machine-count').textContent = `Available Machines: ${availableMachines}`;
     }
 
     // Update date and time every second
     setInterval(updateDateTime, 1000);
 
-    // Update machine count on page load
-    window.onload = updateMachineCount;
+    // Update machine list and count on page load
+    window.onload = () => {
+      updateMachineList();
+      updateMachineCount();
+    };
   </script>
 </head>
 <body class="flex flex-col items-center justify-between min-h-screen p-8 bg-gray-100">
