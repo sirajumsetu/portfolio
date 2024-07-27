@@ -25,15 +25,33 @@
       color: #4A90E2;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
+    .tagline {
+      font-size: 1.25rem;
+      color: #6B7280;
+      margin-top: 0.5rem;
+    }
+    .logo {
+      height: 40px;
+      width: 40px;
+      margin-right: 10px;
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 </head>
 <body class="flex flex-col items-center justify-between min-h-screen p-8 bg-gray-100">
   <!-- Header Section -->
-  <header class="w-full max-w-5xl p-4 text-center bg-white rounded shadow">
-    <h1 class="text-5xl font-bold title">DialysisLog</h1>
-    <p id="date-time" class="mt-2 text-gray-600"></p>
+  <header class="w-full max-w-5xl p-4 bg-white rounded shadow flex justify-between items-center">
+    <div class="header-content">
+      <img src="path/to/logo.png" alt="DialysisLog Logo" class="logo">
+      <h1 class="text-5xl font-bold title">DialysisLog</h1>
+    </div>
+    <p id="date-time" class="text-gray-600"></p>
   </header>
+  <p class="tagline">Efficiently track and manage dialysis machine usage and patient timers.</p>
 
   <!-- Available Machines Display -->
   <div class="available-machines mt-4">
