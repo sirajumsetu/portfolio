@@ -14,15 +14,15 @@
   <script>
     // Function to add a new machine
     function addMachine() {
-      const newMachine = prompt('Enter machine name:');
-      const availability = prompt('Is the machine available? (yes/no)');
-      if (newMachine && availability) {
-        const machinesList = document.getElementById('machines-list');
-        const newItem = document.createElement('li');
-        newItem.className = 'py-2 border-b border-gray-200';
-        newItem.textContent = `${newMachine} - Availability: ${availability}`;
-        machinesList.appendChild(newItem);
-      }
+      // Get the selected machine number
+      const machineNumber = document.getElementById('machine-select').value;
+      // Randomly determine the availability
+      const availability = Math.random() < 0.5 ? 'Available' : 'Not Available';
+      const machinesList = document.getElementById('machines-list');
+      const newItem = document.createElement('li');
+      newItem.className = 'py-2 border-b border-gray-200';
+      newItem.textContent = `Machine ${machineNumber} - Availability: ${availability}`;
+      machinesList.appendChild(newItem);
     }
 
     // Function to add a new timer
@@ -51,9 +51,19 @@
 
   <!-- Action Buttons -->
   <div class="flex space-x-4 mt-8">
-    <button onclick="addMachine()" class="px-4 py-2 text-white bg-blue-600 rounded shadow hover:bg-blue-700">
-      Add Machine
-    </button>
+    <div>
+      <label for="machine-select" class="mr-2">Select Machine:</label>
+      <select id="machine-select" class="px-2 py-1 border rounded">
+        <option value="1">Machine 1</option>
+        <option value="2">Machine 2</option>
+        <option value="3">Machine 3</option>
+        <option value="4">Machine 4</option>
+        <option value="5">Machine 5</option>
+      </select>
+      <button onclick="addMachine()" class="ml-4 px-4 py-2 text-white bg-blue-600 rounded shadow hover:bg-blue-700">
+        Add Machine
+      </button>
+    </div>
     <button onclick="addTimer()" class="px-4 py-2 text-white bg-green-600 rounded shadow hover:bg-green-700">
       Add Timer
     </button>
