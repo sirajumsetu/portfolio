@@ -14,6 +14,12 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     .hidden { display: none; }
+    .available-machines {
+      border: 2px solid #4A5568;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #E2E8F0;
+    }
   </style>
 </head>
 <body class="flex flex-col items-center justify-between min-h-screen p-8 bg-gray-100">
@@ -21,8 +27,12 @@
   <header class="w-full max-w-5xl p-4 text-center bg-white rounded shadow">
     <h1 class="text-4xl font-bold text-gray-800">DialysisLog</h1>
     <p id="date-time" class="mt-2 text-gray-600"></p>
-    <p id="machine-count" class="mt-2 text-gray-600"></p>
   </header>
+
+  <!-- Available Machines Display -->
+  <div class="available-machines mt-4">
+    <p id="machine-count" class="text-xl font-semibold text-gray-800"></p>
+  </div>
 
   <!-- Current Timer Display -->
   <div class="flex justify-center items-center mt-8">
