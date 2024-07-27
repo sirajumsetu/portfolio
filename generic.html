@@ -15,11 +15,12 @@
     // Function to add a new machine
     function addMachine() {
       const newMachine = prompt('Enter machine name:');
-      if (newMachine) {
+      const availability = prompt('Is the machine available? (yes/no)');
+      if (newMachine && availability) {
         const machinesList = document.getElementById('machines-list');
         const newItem = document.createElement('li');
         newItem.className = 'py-2 border-b border-gray-200';
-        newItem.textContent = newMachine;
+        newItem.textContent = `${newMachine} - Availability: ${availability}`;
         machinesList.appendChild(newItem);
       }
     }
@@ -27,11 +28,15 @@
     // Function to add a new timer
     function addTimer() {
       const newTimer = prompt('Enter timer duration in minutes:');
-      if (newTimer) {
+      const patientName = prompt('Enter patient name:');
+      const patientInfo = prompt('Enter patient information:');
+      if (newTimer && patientName && patientInfo) {
         const timersList = document.getElementById('timers-list');
         const newItem = document.createElement('li');
         newItem.className = 'py-2 border-b border-gray-200';
-        newItem.textContent = `${newTimer} minutes`;
+        newItem.innerHTML = `<strong>Patient:</strong> ${patientName}<br>
+                             <strong>Info:</strong> ${patientInfo}<br>
+                             <strong>Duration:</strong> ${newTimer} minutes`;
         timersList.appendChild(newItem);
       }
     }
@@ -41,7 +46,7 @@
   <!-- Header Section -->
   <header class="w-full max-w-5xl p-4 text-center bg-white rounded shadow">
     <h1 class="text-4xl font-bold text-gray-800">DialysisLog</h1>
-    <p class="mt-2 text-gray-600">Track your dialysis machines and timers easily</p>
+    <p class="mt-2 text-gray-600">Track your dialysis machines, timers, and patient information</p>
   </header>
 
   <!-- Action Buttons -->
@@ -74,4 +79,3 @@
   </div>
 </body>
 </html>
-
