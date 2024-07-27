@@ -20,18 +20,24 @@
       border-radius: 8px;
       background-color: #E2E8F0;
     }
+    .title {
+      font-family: 'Pacifico', cursive;
+      color: #4A90E2;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body class="flex flex-col items-center justify-between min-h-screen p-8 bg-gray-100">
   <!-- Header Section -->
   <header class="w-full max-w-5xl p-4 text-center bg-white rounded shadow">
-    <h1 class="text-4xl font-bold text-gray-800">DialysisLog</h1>
+    <h1 class="text-5xl font-bold title">DialysisLog</h1>
     <p id="date-time" class="mt-2 text-gray-600"></p>
   </header>
 
   <!-- Available Machines Display -->
   <div class="available-machines mt-4">
-    <p id="machine-count" class="text-xl font-semibold text-gray-800"></p>
+    <p id="machine-count" class="text-xl font-semibold text-gray-800">Available Machines: 0</p>
   </div>
 
   <!-- Current Timer Display -->
@@ -121,7 +127,6 @@
 
     // Function to add a new machine entry
     function addMachine() {
-      const machineNumber = document.getElementById('machine-select').value;
       updateMachineList();
     }
 
@@ -157,6 +162,8 @@
         timersList.appendChild(newItem);
         machineAvailability[machineNumber] = false; // Set machine as unavailable
         startTimer(newTimer, machineNumber);
+        updateMachineList();
+        updateMachineCount();
         closeTimerModal();
       }
     }
