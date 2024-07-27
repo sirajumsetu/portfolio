@@ -42,9 +42,26 @@
         newItem.className = 'py-2 border-b border-gray-200';
         newItem.innerHTML = `<strong>Patient:</strong> ${patientName}<br>
                              <strong>Info:</strong> ${patientInfo}<br>
-                             <strong>Duration:</strong> ${newTimer} minutes`;
+                             <strong>Duration:</strong> <span class="timer">${newTimer}</span> minutes`;
         timersList.appendChild(newItem);
+        startTimer(newItem.querySelector('.timer'), newTimer);
       }
+    }
+
+    // Function to start a countdown timer
+    function startTimer(timerElement, duration) {
+      let timeRemaining = duration * 60; // Convert minutes to seconds
+      const interval = setInterval(() => {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        timeRemaining--;
+
+        if (timeRemaining < 0) {
+          clearInterval(interval);
+          timerElement.textContent = 'Time\'s up!';
+        }
+      }, 1000);
     }
 
     // Function to update the machine count
