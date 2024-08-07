@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Inventory Management</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,28 +18,33 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
-        .login-container {
+        .container {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .login-container h2 {
-            margin-bottom: 20px;
+        h1, h2 {
+            text-align: center;
         }
-        .login-container label {
+        form, table {
+            width: 100%;
+            margin-top: 20px;
+        }
+        label {
             display: block;
             margin-bottom: 5px;
         }
-        .login-container input {
-            width: 100%;
-            padding: 8px;
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        .login-container button {
+        button {
             width: 100%;
             padding: 10px;
             background-color: #4CAF50;
@@ -47,43 +52,98 @@
             color: white;
             border-radius: 4px;
             cursor: pointer;
+            margin-top: 10px;
         }
-        .login-container button:hover {
+        button:hover {
             background-color: #45a049;
         }
-        .error-message {
-            color: red;
-            display: none;
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <div id="error-message" class="error-message">Invalid username or password</div>
-        <form id="loginForm">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+    <div class="container">
+        <h1>Inventory Management System</h1>
+        <h2>Add Item</h2>
+        <form id="addItemForm">
+            <label for="item_name">Item Name:</label>
+            <input type="text" id="item_name" name="item_name" required>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
+            <label for="expiration_date">Expiration Date:</label>
+            <input type="date" id="expiration_date" name="expiration_date" required>
+            <button type="submit">Add</button>
         </form>
+        <h2>Inventory List</h2>
+        <table id="inventoryTable">
+            <tr>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Expiration Date</th>
+                <th>Actions</th>
+            </tr>
+        </table>
     </div>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        let inventory = [];
+        let idCounter = 0;
+
+        document.getElementById('addItemForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
+            const itemName = document.getElementById('item_name').value;
+            const quantity = document.getElementById('quantity').value;
+            const expirationDate = document.getElementById('expiration_date').value;
 
-            // Simulated login verification
-            if (username === 'user' && password === 'password') {
-                alert('Login successful');
-                // Redirect or do something else on successful login
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-            }
+            const item = {
+                id: idCounter++,
+                itemName,
+                quantity,
+                expirationDate
+            };
+
+            inventory.push(item);
+            addItemToTable(item);
+            this.reset();
         });
+
+        function addItemToTable(item) {
+            const table = document.getElementById('inventoryTable');
+            const row = table.insertRow();
+
+            row.insertCell(0).innerText = item.id;
+            row.insertCell(1).innerText = item.itemName;
+            row.insertCell(2).innerText = item.quantity;
+            row.insertCell(3).innerText = item.expirationDate;
+            const actionsCell = row.insertCell(4);
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.onclick = () => deleteItem(item.id);
+            actionsCell.appendChild(deleteButton);
+        }
+
+        function deleteItem(id) {
+            inventory = inventory.filter(item => item.id !== id);
+            const table = document.getElementById('inventoryTable');
+            for (let i = table.rows.length - 1; i > 0; i--) {
+                if (parseInt(table.rows[i].cells[0].innerText) === id) {
+                    table.deleteRow(i);
+                    break;
+                }
+            }
+        }
     </script>
 </body>
 </html>
