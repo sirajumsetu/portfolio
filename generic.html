@@ -9,113 +9,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retail Bank Chatbot</title>
+    <title>CookNotes - Recipe Flashcards</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: #f9f9f9;
+            color: #333;
         }
-        .chat-container {
-            width: 400px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .chat-header {
-            background-color: #4CAF50;
+
+        header {
+            background-color: #ff6347;
             color: white;
-            padding: 15px;
+            padding: 10px 0;
             text-align: center;
         }
-        .chat-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-        }
-        .chat-input {
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
             display: flex;
-            border-top: 1px solid #ddd;
+            flex-wrap: wrap;
+            justify-content: space-around;
         }
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            outline: none;
+
+        .flashcard {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.2s;
         }
-        .chat-input button {
-            padding: 10px;
-            background-color: #4CAF50;
+
+        .flashcard:hover {
+            transform: scale(1.05);
+        }
+
+        .flashcard img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .flashcard h2 {
+            margin: 10px 0;
+            color: #ff6347;
+        }
+
+        .flashcard p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .flashcard button {
+            background-color: #ff6347;
             color: white;
             border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
             cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
         }
-        .chat-input button:hover {
-            background-color: #45a049;
-        }
-        .message {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .message.user {
-            background-color: #e0f7fa;
-            align-self: flex-end;
-        }
-        .message.bot {
-            background-color: #f1f8e9;
-            align-self: flex-start;
+
+        .flashcard button:hover {
+            background-color: #e5533d;
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">Retail Bank Chatbot</div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
+
+    <header>
+        <h1>CookNotes</h1>
+        <p>Your Personal Recipe Flashcards</p>
+    </header>
+
+    <div class="container">
+        <div class="flashcard">
+            <img src="recipe-image-1.jpg" alt="Recipe 1">
+            <h2>Spaghetti Bolognese</h2>
+            <p>A classic Italian pasta dish made with ground meat, tomatoes, and herbs.</p>
+            <button>View Recipe</button>
         </div>
+        <div class="flashcard">
+            <img src="recipe-image-2.jpg" alt="Recipe 2">
+            <h2>Chicken Curry</h2>
+            <p>A flavorful and spicy chicken dish with a rich, creamy sauce.</p>
+            <button>View Recipe</button>
+        </div>
+        <div class="flashcard">
+            <img src="recipe-image-3.jpg" alt="Recipe 3">
+            <h2>Vegetarian Tacos</h2>
+            <p>Fresh and vibrant tacos filled with a variety of vegetables and beans.</p>
+            <button>View Recipe</button>
+        </div>
+        <!-- Add more flashcards as needed -->
     </div>
-    <script>
-        const responses = {
-            'hello': 'Hello! How can I assist you today?',
-            'balance': 'You can check your balance by logging into your online banking account.',
-            'hours': 'Our branch hours are Monday to Friday, 9 AM to 5 PM.',
-            'contact': 'You can contact our customer service at 1-800-123-4567.',
-            'loan': 'We offer various loan products. Please visit our website or contact a representative for more details.'
-        };
 
-        function sendMessage() {
-            const userInput = document.getElementById('userInput').value.trim().toLowerCase();
-            if (userInput) {
-                addMessage(userInput, 'user');
-                document.getElementById('userInput').value = '';
-                setTimeout(() => respond(userInput), 500);
-            }
-        }
-
-        function respond(userInput) {
-            const response = responses[userInput] || "I'm sorry, I didn't understand that. Can you please rephrase?";
-            addMessage(response, 'bot');
-        }
-
-        function addMessage(message, sender) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageElement = document.createElement('div');
-            messageElement.className = 'message ' + sender;
-            messageElement.textContent = message;
-            chatMessages.appendChild(messageElement);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-    </script>
 </body>
 </html>
