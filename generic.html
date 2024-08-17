@@ -48,6 +48,22 @@
             font-size: 16px;
         }
 
+        .add-recipe-btn {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .add-recipe-btn:hover {
+            background-color: #e5533d;
+        }
+
         .flashcard {
             background-color: white;
             border-radius: 8px;
@@ -166,6 +182,7 @@
             <option value="vegetarian">Vegetarian</option>
             <!-- Add more categories as needed -->
         </select>
+        <button class="add-recipe-btn" onclick="openAddRecipeModal()">Add Recipe</button>
     </div>
 
     <div class="container" id="flashcardContainer">
@@ -196,10 +213,10 @@
                 <span>&#9733;</span><span>&#9733;</span><span>&#9734;</span><span>&#9734;</span><span>&#9734;</span>
             </div>
         </div>
-        <!-- Add more flashcards as needed -->
+        <!-- Flashcards dynamically added here -->
     </div>
 
-    <!-- Modal -->
+    <!-- Modal for viewing recipes -->
     <div id="recipeModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -208,6 +225,30 @@
             <div class="rating">
                 <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9734;</span>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding new recipes -->
+    <div id="addRecipeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddRecipeModal()">&times;</span>
+            <h2>Add a New Recipe</h2>
+            <form id="addRecipeForm">
+                <label for="recipeName">Recipe Name:</label><br>
+                <input type="text" id="recipeName" name="recipeName" required><br><br>
+                <label for="recipeCategory">Category:</label><br>
+                <select id="recipeCategory" name="recipeCategory" required>
+                    <option value="italian">Italian</option>
+                    <option value="indian">Indian</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <!-- Add more categories as needed -->
+                </select><br><br>
+                <label for="recipeDescription">Description:</label><br>
+                <textarea id="recipeDescription" name="recipeDescription" required></textarea><br><br>
+                <label for="recipeImage">Image URL:</label><br>
+                <input type="url" id="recipeImage" name="recipeImage" required><br><br>
+                <button type="submit">Add Recipe</button>
+            </form>
         </div>
     </div>
 
@@ -251,9 +292,50 @@
             modal.style.display = 'none';
         }
 
+        function openAddRecipeModal() {
+            const modal = document.getElementById('addRecipeModal');
+            modal.style.display = 'block';
+        }
+
+        function closeAddRecipeModal() {
+            const modal = document.getElementById('addRecipeModal');
+            modal.style.display = 'none';
+        }
+
+        document.getElementById('addRecipeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const recipeName = document.getElementById('recipeName').value;
+            const recipeCategory = document.getElementById('recipeCategory').value;
+            const recipeDescription = document.getElementById('recipeDescription').value;
+            const recipeImage = document.getElementById('recipeImage').value;
+
+            const flashcardContainer = document.getElementById('flashcardContainer');
+
+            const newFlashcard = document.createElement('div');
+            newFlashcard.classList.add('flashcard');
+            newFlashcard.setAttribute('data-category', recipeCategory);
+            newFlashcard.setAttribute('data-name', recipeName.toLowerCase());
+
+            newFlashcard.innerHTML = `
+                <img src="${recipeImage}" alt="Recipe Image">
+                <h2>${recipeName}</h2>
+                <p>${recipeDescription}</p>
+                <button onclick="openModal('${recipeName}')">View Recipe</button>
+                <div class="rating">
+                    <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9734;</span>
+                </div>
+            `;
+
+            flashcardContainer.appendChild(newFlashcard);
+            newFlashcard.style.display = 'block';
+
+            closeAddRecipeModal();
+            filterCards(); // Reapply filters to show the new card
+        });
+
         // Initial filter to display all cards
         filterCards();
     </script>
 </body>
 </html>
-
