@@ -35,6 +35,19 @@
             justify-content: space-around;
         }
 
+        .search-filter {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .search-filter input, .search-filter select {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
         .flashcard {
             background-color: white;
             border-radius: 8px;
@@ -44,10 +57,7 @@
             width: 300px;
             text-align: center;
             transition: transform 0.2s;
-        }
-
-        .flashcard:hover {
-            transform: scale(1.05);
+            display: none; /* Initially hidden, will be displayed by JS */
         }
 
         .flashcard img {
@@ -79,6 +89,65 @@
         .flashcard button:hover {
             background-color: #e5533d;
         }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 50px;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .rating {
+            margin-top: 10px;
+        }
+
+        .rating span {
+            font-size: 20px;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .rating span:hover,
+        .rating span.active {
+            color: #ff6347;
+        }
+
+        @media screen and (max-width: 600px) {
+            .flashcard {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -88,27 +157,103 @@
         <p>Your Personal Recipe Flashcards</p>
     </header>
 
-    <div class="container">
-        <div class="flashcard">
+    <div class="search-filter">
+        <input type="text" id="searchBar" placeholder="Search for recipes..." onkeyup="filterCards()">
+        <select id="categoryFilter" onchange="filterCards()">
+            <option value="all">All Categories</option>
+            <option value="italian">Italian</option>
+            <option value="indian">Indian</option>
+            <option value="vegetarian">Vegetarian</option>
+            <!-- Add more categories as needed -->
+        </select>
+    </div>
+
+    <div class="container" id="flashcardContainer">
+        <div class="flashcard" data-category="italian" data-name="spaghetti bolognese">
             <img src="recipe-image-1.jpg" alt="Recipe 1">
             <h2>Spaghetti Bolognese</h2>
             <p>A classic Italian pasta dish made with ground meat, tomatoes, and herbs.</p>
-            <button>View Recipe</button>
+            <button onclick="openModal('Spaghetti Bolognese')">View Recipe</button>
+            <div class="rating">
+                <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9734;</span>
+            </div>
         </div>
-        <div class="flashcard">
+        <div class="flashcard" data-category="indian" data-name="chicken curry">
             <img src="recipe-image-2.jpg" alt="Recipe 2">
             <h2>Chicken Curry</h2>
             <p>A flavorful and spicy chicken dish with a rich, creamy sauce.</p>
-            <button>View Recipe</button>
+            <button onclick="openModal('Chicken Curry')">View Recipe</button>
+            <div class="rating">
+                <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9734;</span><span>&#9734;</span>
+            </div>
         </div>
-        <div class="flashcard">
+        <div class="flashcard" data-category="vegetarian" data-name="vegetarian tacos">
             <img src="recipe-image-3.jpg" alt="Recipe 3">
             <h2>Vegetarian Tacos</h2>
             <p>Fresh and vibrant tacos filled with a variety of vegetables and beans.</p>
-            <button>View Recipe</button>
+            <button onclick="openModal('Vegetarian Tacos')">View Recipe</button>
+            <div class="rating">
+                <span>&#9733;</span><span>&#9733;</span><span>&#9734;</span><span>&#9734;</span><span>&#9734;</span>
+            </div>
         </div>
         <!-- Add more flashcards as needed -->
     </div>
 
+    <!-- Modal -->
+    <div id="recipeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Recipe Title</h2>
+            <p id="modalDescription">Full recipe details go here...</p>
+            <div class="rating">
+                <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9734;</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterCards() {
+            const searchInput = document.getElementById('searchBar').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const cards = document.getElementsByClassName('flashcard');
+
+            for (let card of cards) {
+                const cardName = card.getAttribute('data-name');
+                const cardCategory = card.getAttribute('data-category');
+                if ((cardName.includes(searchInput) || searchInput === '') &&
+                    (categoryFilter === 'all' || cardCategory === categoryFilter)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        }
+
+        function openModal(recipeName) {
+            const modal = document.getElementById('recipeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+
+            // Example data, replace with actual recipe details
+            const recipes = {
+                'Spaghetti Bolognese': 'Here are the full details for Spaghetti Bolognese...',
+                'Chicken Curry': 'Here are the full details for Chicken Curry...',
+                'Vegetarian Tacos': 'Here are the full details for Vegetarian Tacos...'
+            };
+
+            modalTitle.textContent = recipeName;
+            modalDescription.textContent = recipes[recipeName];
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('recipeModal');
+            modal.style.display = 'none';
+        }
+
+        // Initial filter to display all cards
+        filterCards();
+    </script>
 </body>
 </html>
+
